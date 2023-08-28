@@ -52,7 +52,7 @@ local localindex = 0
 local localteamid = 0
 local lastcssplayernumber = 0
 local teammateisin = false
-local purchaseguy = 0
+local purchaseguy = nil
 local purchasedex = false
 
 local function ingame()
@@ -61,7 +61,6 @@ local function ingame()
 end
 
 local function partyapisay(message)
-    print(ui.messagemode:get())
     print(message)
     if ui.messagemode:get() == 2 then
         panorama.loadstring(
@@ -199,7 +198,7 @@ callbacks.add(e_callbacks.EVENT, on_event)
 callbacks.add(e_callbacks.SETUP_COMMAND, main_exec)
 
 menu.add_button(ui.group_name, "Check DZ Team", function()
-    if cvars.game_type:get_int() ~= "6" then
+    if cvars.game_type:get_int() ~= 6 then
         partyapisay("Not_DangerZone_Mode!")
         return
     end
