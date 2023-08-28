@@ -183,21 +183,22 @@ local function on_event(e)
     end
     if eventName == "player_death" and ingamestatus then
         deadlist[(entity_list.get_player_from_userid(e.userid)):get_name()] = true
-
-        local teamid = (entity_list.get_player_from_userid(e.userid)):get_prop("m_nSurvivalTeam")
-        if teamid == -1 or teamid == nil then return end
-        local playername = (entity_list.get_player_from_userid(e.userid)):get_name()
-        if player_respawn_times[playername] then
-            player_respawn_times[playername] = player_respawn_times[playername] + 10
-        else
-            player_respawn_times[playername] = 20
+        if entity_list.get_player_from_userid(e.userid):is_player() then
+            local teamid = (entity_list.get_player_from_userid(e.userid)):get_prop("m_nSurvivalTeam")
+            if teamid == -1 or teamid == nil then return end
+            local playername = (entity_list.get_player_from_userid(e.userid)):get_name()
+            if player_respawn_times[playername] then
+                player_respawn_times[playername] = player_respawn_times[playername] + 10
+            else
+                player_respawn_times[playername] = 20
+            end
         end
     end
 end
 callbacks.add(e_callbacks.EVENT, on_event)
 callbacks.add(e_callbacks.SETUP_COMMAND, main_exec)
 
-menu.add_button(ui.group_name, "Check DZ Team",function()
+menu.add_button(ui.group_name, "Check DZ Team", function()
     if cvars.game_type:get_int() ~= "6" then
         partyapisay("Not_DangerZone_Mode!")
         return
